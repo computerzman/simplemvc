@@ -11,7 +11,7 @@ namespace BATRAHOSTMVC\Lib\Database;
 
 class PDODatabaseHandler extends DatabaseHandler
 {
-   // private static $_instance;
+    private static $_instance;
     private static $_handler;
     
     private function __construct() {
@@ -32,10 +32,12 @@ class PDODatabaseHandler extends DatabaseHandler
     protected static function init(){
         try{
            
+           
             self::$_handler = new \PDO(
                     'mysql:host='.DATABASE_HOST_NAME.';dbname='.DATABASE_DB_NAME,DATABASE_USER_NAME,
                     DATABASE_PASSW0RD);
-            //var_dump(self::$_handler);
+           
+// var_dump(self::$_handler);
             //self::$_handler = new pdo("mysql:host=localhost; dbname=test", 'root', 'rootbootroot');
             //return 'Connected';
             
@@ -47,11 +49,36 @@ class PDODatabaseHandler extends DatabaseHandler
         
     }
     public static function getInstance() {
+        if(self::$_instance === null){
+            self::$_instance = new self();
+        }
+     // print_r (self::$_handler);
+   //  var_dump (self::$_handler);
+        return self::$_instance;
+    }
+/*    
+    public static function getInstance() {
         if(self::$_handler === null){
             self::$_handler = new self();
         }
         return self::$_handler;
-    }
+    }    
+  */  
+    /*
+        public static function prepare() {
+        //if(self::$_handler === null){
+         //   self::$_handler = new self();
+       // }
+        //return self::$_handler;
+        }
+        
+        public static function execute() {
+        //if(self::$_handler === null){
+         //   self::$_handler = new self();
+       // }
+        //return self::$_handler;
+        }
+*/
 
     
 
