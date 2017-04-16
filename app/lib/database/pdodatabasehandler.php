@@ -33,21 +33,27 @@ class PDODatabaseHandler extends DatabaseHandler
         try{
            
            
-            self::$_handler = new \PDO(
+            PDODatabaseHandler::$_handler = new \PDO(
                     'mysql:host='.DATABASE_HOST_NAME.';dbname='.DATABASE_DB_NAME,DATABASE_USER_NAME,
                     DATABASE_PASSW0RD);
            
 // var_dump(self::$_handler);
             //self::$_handler = new pdo("mysql:host=localhost; dbname=test", 'root', 'rootbootroot');
-            //return 'Connected';
+           // return self::$_handler;
             
         } catch (\PDOException $e)
         {
             echo $e->getMessage( ) ." | ". $e->getCode( ) ;
           
         }
+        return self::$_handler;
         
     }
+    
+    public static function call_init(){
+        return self::init();
+    }
+
     public static function getInstance() {
         if(self::$_instance === null){
             self::$_instance = new self();
@@ -56,30 +62,6 @@ class PDODatabaseHandler extends DatabaseHandler
    //  var_dump (self::$_handler);
         return self::$_instance;
     }
-/*    
-    public static function getInstance() {
-        if(self::$_handler === null){
-            self::$_handler = new self();
-        }
-        return self::$_handler;
-    }    
-  */  
-    /*
-        public static function prepare() {
-        //if(self::$_handler === null){
-         //   self::$_handler = new self();
-       // }
-        //return self::$_handler;
-        }
-        
-        public static function execute() {
-        //if(self::$_handler === null){
-         //   self::$_handler = new self();
-       // }
-        //return self::$_handler;
-        }
-*/
-
     
 
 }

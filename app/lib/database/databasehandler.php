@@ -20,12 +20,12 @@ abstract class DatabaseHandler {
     {
       //  $driver = DATABASE_CONN_DRIVER;
      //  if($driver == self::DATABASE_DRIVER_POD)
-      // {
-          return PDODatabaseHandler::getInstance();
-     
-      // } else if ($driver == self::DATABASE_DRIVER_MYSQLI)
      //  {
-      //     return MySQLiDatabaseHandler::getInstance();
-      // }       
+          return PDODatabaseHandler::call_init();
+     
+     //  } else if ($driver == self::DATABASE_DRIVER_MYSQLI)
+      // {
+      //    return MySQLiDatabaseHandler::getInstance();
+      //}       
     }
 }
