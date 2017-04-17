@@ -46,7 +46,7 @@ class PDODatabaseHandler extends DatabaseHandler
             echo $e->getMessage( ) ." | ". $e->getCode( ) ;
           
         }
-        return self::$_handler;
+      //  return self::$_handler;
         
     }
     
