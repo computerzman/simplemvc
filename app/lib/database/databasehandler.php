@@ -18,14 +18,14 @@ abstract class DatabaseHandler {
     abstract protected static function getInstance();
     public static function factory()
     {
-      //  $driver = DATABASE_CONN_DRIVER;
-     //  if($driver == self::DATABASE_DRIVER_POD)
-     //  {
-          return PDODatabaseHandler::call_init();
+        $driver = DATABASE_CONN_DRIVER;
+       if($driver == self::DATABASE_DRIVER_POD)
+       {
+          return PDODatabaseHandler::getInstance();
      
-     //  } else if ($driver == self::DATABASE_DRIVER_MYSQLI)
-      // {
-      //    return MySQLiDatabaseHandler::getInstance();
-      //}       
+       } else if ($driver == self::DATABASE_DRIVER_MYSQLI)
+       {
+         return MySQLiDatabaseHandler::getInstance();
+      }       
     }
 }

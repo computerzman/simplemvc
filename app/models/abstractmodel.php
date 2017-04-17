@@ -90,7 +90,7 @@ class AbstractModel
        // global $connection; 
         $sql = 'SELECT * FROM '. static::$tableName;
         //$stmt = $connection->prepare($sql);
-        var_dump(get_class_methods(DatabaseHandler::factory()));
+      //  var_dump(get_class_methods(DatabaseHandler::factory()));
         $stmt = DatabaseHandler::factory()->prepare($sql);
         //return $connection->execute() === true ? $stmt->fetchAll(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, 'Employee', array('name', 'age', 'address', 'tax', 'salary')) : false;
         //using fetchAll with this paramaters return values as OBJECT Of class which returned by get_called_calss() which called this method

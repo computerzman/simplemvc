@@ -58,9 +58,8 @@ class PDODatabaseHandler extends DatabaseHandler
         if(self::$_instance === null){
             self::$_instance = new self();
         }
-     // print_r (self::$_handler);
-   //  var_dump (self::$_handler);
-        return self::$_instance;
+        return self::$_handler;
+    
     }
     
 
