@@ -19,6 +19,8 @@ class EmployeeModel extends AbstractModel
     
     public static $db;
     protected static $tableName = 'employees';
+
+
     protected static $tableSchema = array(
       'name'        => self::DATA_TYPE_STR,
       'age'        => self::DATA_TYPE_INT,
@@ -27,6 +29,9 @@ class EmployeeModel extends AbstractModel
       'salary'        => self::DATA_TYPE_DECIMAL
     );
     protected static $primaryKey = 'id';
+    public function __construct(){}
+
+    /*
     public function __construct($name, $age, $address, $tax, $salary) {
         
                
@@ -38,6 +43,8 @@ class EmployeeModel extends AbstractModel
         
         
     }
+
+    */
     public function __get($prop){
         $this->$prop;
     }

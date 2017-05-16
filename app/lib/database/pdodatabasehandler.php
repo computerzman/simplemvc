@@ -36,11 +36,11 @@ class PDODatabaseHandler extends DatabaseHandler
             PDODatabaseHandler::$_handler = new \PDO(
                     'mysql:host='.DATABASE_HOST_NAME.';dbname='.DATABASE_DB_NAME,DATABASE_USER_NAME,
                     DATABASE_PASSW0RD);
-           
+
 // var_dump(self::$_handler);
             //self::$_handler = new pdo("mysql:host=localhost; dbname=test", 'root', 'rootbootroot');
            // return self::$_handler;
-            
+            //echo "econnected";
         } catch (\PDOException $e)
         {
             echo $e->getMessage( ) ." | ". $e->getCode( ) ;
@@ -50,14 +50,17 @@ class PDODatabaseHandler extends DatabaseHandler
         
     }
     
+    /*
     public static function call_init(){
         return self::init();
     }
-
+    */
+    
     public static function getInstance() {
         if(self::$_instance === null){
             self::$_instance = new self();
         }
+        self::$_handler->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION); // i added this in 15-05-2017 to debug pdo errors , i can comment it in any time
         return self::$_handler;
     
     }

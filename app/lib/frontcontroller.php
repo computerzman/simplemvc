@@ -18,7 +18,7 @@ class FrontController
         private function _parseUrl()
     {
         $url = explode('/', trim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH),'/'), 3);
-        var_dump($url);
+      //  var_dump($url);
         if(isset($url[0]) && $url[0] !='')
         {
             $this->_controller = $url[0];
@@ -33,7 +33,7 @@ class FrontController
         }            
        // @list($this->_controller, $this->_action, $this->_params) = explode('/', trim($url, '/'),3);
       //  $this->_params = explode('/', $this->_params);
-        var_dump($this);
+       // var_dump($this);
     }
     
     public function dispatch()

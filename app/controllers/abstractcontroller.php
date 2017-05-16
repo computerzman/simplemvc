@@ -14,6 +14,8 @@ class AbstractController {
     protected $_action = 'default';
     protected $_params = array();
 
+    protected $_data = []; //  array to path any data from controller to view
+
     public function notFoundAction()
     {
         $this->_view();
@@ -36,6 +38,7 @@ class AbstractController {
     
     protected function _view()
     {
+
         if($this->_action == FrontController::NOT_FOUND_ACTION)
         {
             
@@ -46,6 +49,7 @@ class AbstractController {
             $view = VIEWS_PATH.$this->_controller.DS.$this->_action.'.view.php';
             if(file_exists($view))
             {
+                extract($this->_data); // to extract array of data as variables Key with Values
                 require_once $view;
             }
             else {

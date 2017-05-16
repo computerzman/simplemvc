@@ -21,25 +21,31 @@ class AbstractModel
     }
      * 
      */
-    // we make path by reference 
+    // we make path by reference
+
+
     private function prepareValues(\PDOStatement &$stmt)
     {
-          foreach (static::$tableSchema as $columnName => $type)
+        foreach (static::$tableSchema as $columnName => $type)
         {
+
             if($type == 4)
             {
                 $sanitizedValue = filter_var($this->$columnName, FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
+                //$sanitizedValue = $this->$columnName;
                 $stmt->bindValue(":{$columnName}", $sanitizedValue);
             }
             else
             {
                 $stmt->bindValue(":{$columnName}", $this->$columnName,  $type);
             }
-            
-        }      
+
+
+        }
+
     }
 
-        private static function buildNameParametersSQL()
+        private function buildNameParametersSQL()
     {
         $nameParams = '';
         //$columnName (Column Name) => $type (Column datatype)
@@ -50,20 +56,31 @@ class AbstractModel
         return trim($nameParams, ', ');
     }
     
-    private static function create()
+    private function create()
     {
         //global $connection;
- 
-        $sql = 'INSERT INTO '. static::$tableName . ' SET '. self::buildNameParametersSQL();
+
+
+        $sql = 'INSERT INTO '. static::$tableName . ' SET '. $this->buildNameParametersSQL();
         $stmt = DatabaseHandler::factory()->prepare($sql);
         $this->prepareValues($stmt);
-        return $stmt->execute(); // true of false
+        if($stmt->execute()){
+            $this->{static::$primaryKey} = DatabaseHandler::factory()->lastInsertId();
+            return true;
+        }
+        return false; // true of false
+        //var_dump($stmt->debugDumpParams());
+        //var_dump($stmt->debugDumpParams());
+         //return var_dump($stmt->execute());
+
+
+
     }
 
-    private static function update()
+    private function update()
     {
        // global $connection; 
-        $sql = 'UPDATE '. static::$tableName . ' SET '. self::buildNameParametersSQL(). ' WHERE '. static::$primaryKey .' = '.$this->{static::$primaryKey};
+        $sql = 'UPDATE '. static::$tableName . ' SET '. $this->buildNameParametersSQL(). ' WHERE '. static::$primaryKey .' = '.$this->{static::$primaryKey};
       //  $stmt = $connection->prepare($sql);
         //$stmt = DatabaseHandler::factory()->prepare($sql);
         $stmt = DatabaseHandler::factory()->prepare($sql);
@@ -73,10 +90,11 @@ class AbstractModel
     
     public function save()
     {
+       // echo $this->{static::$primaryKey}.'mmmm';
         return $this->{static::$primaryKey} === null ? $this->create() : $this->update();
     }
 
-    public static function delete()
+    public function delete()
     {
       //  global $connection; 
         $sql = 'DELETE FROM '. static::$tableName . ' WHERE '. static::$primaryKey .' = '.$this->{static::$primaryKey};
@@ -101,6 +119,8 @@ class AbstractModel
 
     public static function getByPk($pk)
     {
+        $pk = filter_var($pk, FILTER_SANITIZE_NUMBER_INT);
+        $pk = (int)$pk;
         //global $connection; 
         $sql = 'SELECT * FROM '. static::$tableName. ' WHERE '. static::$primaryKey .' = '.$pk;
         //$stmt = $connection->prepare($sql);
@@ -108,10 +128,16 @@ class AbstractModel
         $stmt = DatabaseHandler::factory()->prepare($sql);
         //return $connection->execute() === true ? $stmt->fetchAll(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, 'Employee', array('name', 'age', 'address', 'tax', 'salary')) : false;
         //using fetchAll with this paramaters return values as OBJECT Of class which returned by get_called_calss() which called this method
-        if($connection->execute() === true)
+        if($stmt->execute() === true)
         {
-            $obj = $stmt->fetchAll(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, get_called_class(), array_keys(static::$tableSchema));
-            return array_shift($obj);
+            if(method_exists(get_called_class(), '__construct')){
+                $obj = $stmt->fetchAll(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, get_called_class(), array_keys(static::$tableSchema));
+                //return is_array($result) && !empty($result) === true ? $result : false;
+            } else {
+                $obj =$stmt->fetchAll(\PDO::FETCH_CLASS, get_called_class());
+            }
+            return !empty($obj) ? array_shift($obj) : false;
+            //return array_shift($obj);
         }
         return false;
     }
