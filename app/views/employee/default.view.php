@@ -1,70 +1,18 @@
-<style type="text/css">
-    *{
-        margin: 0;
-        padding:0;
-        border:0;
-        outline:none;
-        line-height: 1.2;
-        font-size:1em;
-    }
-
-    div.wrapper{
-        overflow: hidden;
-    }
-
-    div.wrapper div.employees{
-     margin: 0 auto;
-     width:700px;
-    }
-    div.wrapper div.employees table{
-        width: 780px;
-        margin: 20px 20px 0 0;
-        border-collapse: collapse;
-    }
-
-    div.wrapper div.employees table thead th{
-        text-align: left;
-        padding:5px;
-        border-right:solid 1px #e4e4e4;
-        border-bottom:solid 2px #e4e4e4;
-        font: bold 0.9em Arial, Helvetica, sans-serif;
-        color:#666;
-    }
-    div.wrapper div.employees table thead th:last-of-type{
-        border-right:none;
-    }
-    div.wrapper div.employees table thead td{
-        text-align: left;
-        padding: 5px;
-        border-bottom:solid 1px #e4e4e4;
-        font: 0.8em Arial, Helvetica, sans-serif;
-        color:#666;
-    }
-    div.wrapper div.employees table tbody tr:nth-child(2n) td{
-        background: #f1f1f1;
-    }
-    div.wrapper div.employees table tbody td a:link,
-    div.wrapper div.employees table tbody td a:visited {
-        color: #0ba1ec;
-    }
-
-</style>
-<div class="wrapper">
     <?php if(isset($_SESSION['message'])) {?>
     <p class="message <?= isset($error) ? 'error' : '' ?>"><?= $_SESSION['message']?></p>
     <?php unset($_SESSION['message']); } ?>
     <div class="employees">
-        <a href="/employee/add">Add a new employee</a>
+        <a href="/employee/add"><?=@$text_add_employee?></a>
 
-        <table>
+        <table class="data">
             <thead>
             <tr>
-                <th>Name</th>
-                <th>Age</th>
-                <th>Address</th>
-                <th>Salary</th>
-                <th>Tax (%)</th>
-                <th>Control</th>
+                <th><?= $text_table_employee_name?></th>
+                <th><?= $text_table_employee_age?></th>
+                <th><?= $text_table_employee_address?></th>
+                <th><?= $text_table_employee_salary?></th>
+                <th><?= $text_table_employee_tax?> (%)</th>
+                <th><?= $text_table_control?></th>
             </tr>
             </thead>
             <tbody>
@@ -81,7 +29,7 @@
                     <td><?= $employee->address ?></td>
                     <td><?= $employee->salary ?></td>
                     <td><?= $employee->tax ?></td>
-                    <td><a href="/employee/edit/<?= $employee->id?>">Edit</a> | <a href="/employee/delete/<?= $employee->id?>">Delete</a></td>
+                    <td><a href="/employee/edit/<?= $employee->id?>">Edit</a> | <a href="/employee/delete/<?= $employee->id?>" onclick="if(!confirm('<?=$text_delete_confirm?>')) return false;">Delete</a></td>
                 </tr>
                 <?php
             }
@@ -93,16 +41,3 @@
             </tbody>
         </table>
     </div>
-
-</div>
-
-
-<?php
-/*
-
-foreach ($employees as $employee)
-{
-var_dump($employees);
-}
-
-*/

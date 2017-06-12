@@ -19,11 +19,14 @@ class EmployeeController extends AbstractController
     
     public function defaultAction()
     {
+        $this->_language->load('template.common');
+        $this->_language->load('employee.default');
         $this->_data['employees'] = EmployeeModel::getAll();
         $this->_view();
     }
     public function addAction()
     {
+
         if(isset($_POST['submit'])){
 
             $emp = new EmployeeModel();
@@ -34,12 +37,12 @@ class EmployeeController extends AbstractController
             $emp->tax = $this->filterFloat($_POST['tax']);
             if($emp->save()){
                 //echo $emp->name . ' has been saved successfully with ID: '. $emp->id;
-                $_SESSION['message'] = 'Employee, saved successfully';
+                $_SESSION['message'] = 'تم تحفظ بيانات الموظف بنجاح';
               $this->redirect('/employee');
             }
             else
             {
-                $_SESSION['message'] = 'Employee, Cant Save Employee';
+                $_SESSION['message'] = 'يوجد مشكلة فى حفظ بيانات الموظف';
                 $this->redirect('/employee');
             }
         }
@@ -67,12 +70,12 @@ class EmployeeController extends AbstractController
 
             if($emp->save()){
                 //echo $emp->name . ' has been saved successfully with ID: '. $emp->id;
-                $_SESSION['message'] = 'Employee, Updated successfully';
+                $_SESSION['message'] = 'تم تحديث بيانات الموظف بنجاح';
               //  $this->redirect('/employee');
             }
             else
             {
-                $_SESSION['message'] = 'Employee, Cant update Employee';
+                $_SESSION['message'] = 'يوجد مشكلة فى تحديث بيانات الموظف';
                 $this->redirect('/employee');
             }
         }
@@ -89,7 +92,7 @@ class EmployeeController extends AbstractController
 
             if($emp->delete()){
                 //echo $emp->name . ' has been saved successfully with ID: '. $emp->id;
-                $_SESSION['message'] = 'Employee, Deleted successfully';
+                $_SESSION['message'] = 'تم حذف بيانات الموظف بنجاح';
                 $this->redirect('/employee');
             }
     }
